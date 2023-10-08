@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Show Password Strength</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Check your Password Strength before creating any password!</h1>
+      <div class="input-box">
+        <input type="password" name="" value="" placeholder="Password" id="password">
+        <p id="msg">Your Password is <span id="strength"></span></p>
+      </div>
+    </div>
+
+    <script>
+      let pass = document.getElementById('password');
+      let msg = document.getElementById('msg');
+      let strength = document.getElementById('strength');
+
+      const uppercaseRegex = /[A-Z]/;
+      const lowercaseRegex = /[a-z]/;
+      const numberRegex = /[0-9]/;
+      const symbolRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/;
+
+      pass.addEventListener('input', () => {
+        if (pass.value.length > 0) {
+          msg.style.display = 'block';
+        }
+        else {
+          msg.style.display = 'none';
+        }
+
+        if (pass.value.length < 8) {
+          strength.innerHTML = "weak";
+          pass.style.borderColor = "red";
+          msg.style.color = "red";
+        }
+        else if(pass.value.length >= 8 &&
+        (uppercaseRegex.test(pass.value) &&
+        lowercaseRegex.test(pass.value) &&
+        numberRegex.test(pass.value) &&
+        symbolRegex.test(pass.value))) {
+          strength.innerHTML = "strong";
+          pass.style.borderColor = "green";
+          msg.style.color = "green";
+        }
+        else if (pass.value.length >= 8 &&
+        ((symbolRegex.test(pass.value) && lowercaseRegex.test(pass.value)) ||
+        (uppercaseRegex.test(pass.value) && symbolRegex.test(pass.value)) ||
+        (uppercaseRegex.test(pass.value) && numberRegex.test(pass.value)) ||
+        (uppercaseRegex.test(pass.value) && lowercaseRegex.test(pass.value)) ||
+        (lowercaseRegex.test(pass.value) && numberRegex.test(pass.value)) ||
+        (numberRegex.test(pass.value) && symbolRegex.test(pass.value)))) {
+          strength.innerHTML = "medium";
+          pass.style.borderColor = "yellow";
+          msg.style.color = "yellow";
+        }
+      });
+    </script>
+  </body>
+</html>
